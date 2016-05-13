@@ -3,6 +3,10 @@ Laranix
 
 Bash Script to allow create Laravel project with Virtual Host
 
+## Dependencies ##
+
+1. [RoveWire VirtualHost](https://github.com/RoverWire/virtualhost)
+
 ## Installation ##
 
 1. Download the script
