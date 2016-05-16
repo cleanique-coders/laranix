@@ -8,16 +8,30 @@ cwd=$(pwd)"/"
 # $2 is a project name
 project=$cwd$2
 
-# domain name
-domain=$2".dev"
+function slim {
+	local public=$project"/public"
+	local name=$1
+
+	sudo composer create-project --prefer-dist slim/slim-skeleton $name
+	echo "Slim Framework 3 Project created at "$project
+
+	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
+	echo "Change Slim Framework 3 owner to web server"
+
+	virtualhost create $name.dev $public
+	echo "Automate generate domain for Slim Framework project"
+
+	exit
+}
 
 function laravel {
-	cache=$project"/bootstrap/cache"
-	storage=$project"/storage"
-	public=$project"/public"
+	local cache=$project"/bootstrap/cache"
+	local storage=$project"/storage"
+	local public=$project"/public"
+	local name=$1
 
     # create laravel project
-	sudo composer create-project --prefer-dist laravel/laravel $1
+	sudo composer create-project --prefer-dist laravel/laravel $name
 	echo "Laravel Project created at "$project
 
 	sudo chmod 777 $cache -R && chmod 777 $storage -R
@@ -26,16 +40,20 @@ function laravel {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
 	echo "Change Laravel owner to web server"
 
-	virtualhost create $1.dev $public
+	virtualhost create $name.dev $public
 	echo "Automate generate domain for Laravel project"
+
+	exit
 } 
 
+
 function lumen {
-	storage=$project"/storage"
-	public=$project"/public"
+	local storage=$project"/storage"
+	local public=$project"/public"
+	local name=$1
 
 	# create laravel project
-	composer create-project --prefer-dist laravel/lumen $1
+	composer create-project --prefer-dist laravel/lumen $name
 	echo "Lumen Project created at "$project
 
 	chmod 777 $storage -R
@@ -44,17 +62,20 @@ function lumen {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
 	echo "Change Lumen owner to web server"
 
-	virtualhost create $1.dev $public
+	virtualhost create $name.dev $public
 	echo "Automate generate domain for Lumen project"
+
+	exit
 }
 
 function cake {
 	# need to check php -m, on module intl enabled or not..if enabled, proceed, else exit with error message
-	tmp=$project"/tmp"
-	logs=$project"/logs"
-	public=$project"/webroot"
+	local tmp=$project"/tmp"
+	local logs=$project"/logs"
+	local public=$project"/webroot"
+	local name=$1
 
-	sudo composer create-project --prefer-dist cakephp/app $1
+	sudo composer create-project --prefer-dist cakephp/app $name
 	echo "CakePHP 3 Project created at "$project
 
 	sudo setfacl -R -m u:${HTTPDUSER}:rwx tmp
@@ -65,37 +86,19 @@ function cake {
 	sudo setfacl -R -d -m u:${HTTPDUSER}:rwx logs
 	echo "Set CakePHP 3 logs owner & permission"
 
-	virtualhost create $1.dev $public
+	virtualhost create $name.dev $public
 	echo "Automate generate domain for CakePHP 3 project"
+
+	exit
 }
 
-function slim {
-	public=$project"/public"
-
-	sudo composer create-project --prefer-dist slim/slim-skeleton $1
-	echo "Slim Framework 3 Project created at "$project
-
-	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
-	echo "Change Slim Framework 3 owner to web server"
-
-	virtualhost create $1.dev $public
-	echo "Automate generate domain for Slim Framework project"
-}
-
-function t {
-	echo "===::Generating: "$1"::==="
-	echo "===::Project Name: "$2"::==="
-}
-t $1 $2
 # $1 parameter will be the type of project want to create laravel, lumen, cake or slim
-if($1 = "laravel") then
-	laravel $2
-elif($1 = "lumen") then
-	lumen $2
-elif($1 = "cake") then
-	cake $2
-elif($1 = "slim") then
+if [[ $1 = "slim" ]]; then
 	slim $2
-else
-	echo "No project type defined. Nothing to do. Bye."
+elif [[ $1 = "laravel" ]]; then
+	laravel $2
+elif [[ $1 = "lumen" ]]; then
+	lumen $2
+elif [[ $1 = "cake" ]]; then
+	cake $2
 fi
