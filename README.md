@@ -1,7 +1,7 @@
 Laranix
 ===========
 
-Bash Script to allow create Laravel project with Virtual Host
+Bash Script to allow create Laravel 5, Lumen, Slim Framework 3 and CakePHP 3 together with project's Virtual Host
 
 ## Dependencies ##
 
@@ -10,13 +10,15 @@ Bash Script to allow create Laravel project with Virtual Host
 ## Installation ##
 
 1. Download the script
+
+
 2. Apply permission to execute:
 
-    $ chmod +x /path/to/laranix.sh
+    ```$ chmod +x /path/to/laranix.sh```
 
 3. To make use the script globally
 
-    $ sudo cp /path/to/laranix.sh /usr/local/bin/laranix
+    ```$ sudo cp /path/to/laranix.sh /usr/local/bin/laranix```
 
 ## Usage ##
 
