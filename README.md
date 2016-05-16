@@ -14,11 +14,15 @@ Bash Script to allow create Laravel 5, Lumen, Slim Framework 3 and CakePHP 3 tog
 
 2. Apply permission to execute:
 
-    ```$ chmod +x /path/to/laranix.sh```
+    ```
+    $ chmod +x /path/to/laranix.sh
+    ```
 
 3. To make use the script globally
 
-    ```$ sudo cp /path/to/laranix.sh /usr/local/bin/laranix```
+    ```
+    $ sudo cp /path/to/laranix.sh /usr/local/bin/laranix
+    ```
 
 ## Usage ##
 
