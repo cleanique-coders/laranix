@@ -24,3 +24,11 @@ Basic command line syntax:
 
     $ sudo laranix [laravel|lumen|cake|slim] [project-name]
 
+## TODO ##
+
+1. Optionally accept `domain-name`
+
+2. Optionally accept `ip-address`
+
+3. Optionally accept `port`
+
