@@ -106,7 +106,8 @@ function wp {
 	echo "Rename default($default) WordPress directory name($public)"
 	mv $default $public
 
-	echo "Creating Virtual Host for WordPress"
+	sudo chown ${HTTPDUSER}:${HTTPDUSER} $public -R
+	echo "Change WordPress owner to web server"
 
 	virtualhost create $name.dev $public
 	echo "Automate generate domain for WordPress project"
