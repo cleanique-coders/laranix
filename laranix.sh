@@ -92,6 +92,31 @@ function cake {
 	exit
 }
 
+function wp {
+	local name=$1
+	local public=$cwd$name
+	local default=$cwd"wordpress"
+
+	echo "Downloading WordPress..."
+	wget http://wordpress.org/latest.tar.gz
+
+	echo "Extract WordPress..."
+	tar xzvf latest.tar.gz
+
+	echo "Rename default($default) WordPress directory name($public)"
+	mv $default $public
+
+	echo "Creating Virtual Host for WordPress"
+
+	virtualhost create $name.dev $public
+	echo "Automate generate domain for WordPress project"
+
+	echo "Remove latest.tar.gz"
+	rm latest.tar.gz
+	
+	exit
+}
+
 # $1 parameter will be the type of project want to create laravel, lumen, cake or slim
 if [[ $1 = "slim" ]]; then
 	slim $2
@@ -101,4 +126,6 @@ elif [[ $1 = "lumen" ]]; then
 	lumen $2
 elif [[ $1 = "cake" ]]; then
 	cake $2
+elif [[ $1 = "wp" ]]; then
+	wp $2
 fi

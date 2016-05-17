@@ -1,7 +1,7 @@
 Laranix
 ===========
 
-Bash Script to allow create Laravel 5, Lumen, Slim Framework 3 and CakePHP 3 together with project's Virtual Host
+Bash Script to allow create Laravel 5, Lumen, Slim Framework 3, CakePHP 3 and WordPress together with project's Virtual Host
 
 ## Dependencies ##
 
@@ -28,7 +28,7 @@ Bash Script to allow create Laravel 5, Lumen, Slim Framework 3 and CakePHP 3 tog
 
 Basic command line syntax:
 
-    $ sudo laranix [laravel|lumen|cake|slim] [project-name]
+    $ sudo laranix [laravel|lumen|cake|slim|cake] [project-name]
 
 ## TODO ##
 
