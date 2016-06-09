@@ -28,7 +28,9 @@ Bash Script to allow create Laravel 5, Lumen, Slim Framework 3, CakePHP 3 and Wo
 
 Basic command line syntax:
 
-    $ sudo laranix [laravel|lumen|cake|slim|cake|wp] [project-name]
+    $ sudo laranix [laravel|lumen|cake|slim|cake|wp] [project-name] [extension] [ip-address]
+
+`[extension]` and `[ip-address]` is optional. By default it will use `.dev` and `127.0.0.1`
 
 ## TODO ##
 
