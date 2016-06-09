@@ -8,6 +8,22 @@ cwd=$(pwd)"/"
 # $2 is a project name
 project=$cwd$2
 
+# $3 is domain name, default is .dev
+if [[ -z "$3" ]]
+	then
+		domain=".dev"
+	else
+		domain="$3"
+fi
+
+# $4 is IP Address
+if [[ -z "$4" ]]
+	then
+		ipaddress="127.0.0.1"
+	else
+		ipaddress="$4"
+fi
+
 function slim {
 	local public=$project"/public"
 	local name=$1
@@ -18,8 +34,7 @@ function slim {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
 	echo "Change Slim Framework 3 owner to web server"
 
-	virtualhost create $name.dev $public
-	echo "Automate generate domain for Slim Framework project"
+	generate_virtualhost $name
 
 	exit
 }
@@ -40,8 +55,7 @@ function laravel {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
 	echo "Change Laravel owner to web server"
 
-	virtualhost create $name.dev $public
-	echo "Automate generate domain for Laravel project"
+	generate_virtualhost $name
 
 	exit
 } 
@@ -62,8 +76,7 @@ function lumen {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $project -R
 	echo "Change Lumen owner to web server"
 
-	virtualhost create $name.dev $public
-	echo "Automate generate domain for Lumen project"
+	generate_virtualhost $name
 
 	exit
 }
@@ -86,8 +99,7 @@ function cake {
 	sudo setfacl -R -d -m u:${HTTPDUSER}:rwx logs
 	echo "Set CakePHP 3 logs owner & permission"
 
-	virtualhost create $name.dev $public
-	echo "Automate generate domain for CakePHP 3 project"
+	generate_virtualhost $name
 
 	exit
 }
@@ -109,13 +121,40 @@ function wp {
 	sudo chown ${HTTPDUSER}:${HTTPDUSER} $public -R
 	echo "Change WordPress owner to web server"
 
-	virtualhost create $name.dev $public
-	echo "Automate generate domain for WordPress project"
+	generate_virtualhost $name
 
 	echo "Remove latest.tar.gz"
 	rm latest.tar.gz
-	
+
 	exit
+}
+
+function generate_virtualhost {
+	local name=$1
+
+	echo "Generate SSL Certificates"
+	generate_ssl_cert $name
+
+	echo "Automate generate domain for project"
+	virtualhost create $name$domain $public	$ipaddress
+}
+
+function generate_ssl_cert {
+	local name=$1
+
+	if [ ssl_enabled ]
+		then
+			sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/$name$domain.key -out /etc/apache2/ssl/$name$domain.crt
+	fi
+}
+
+function ssl_enabled {
+	if [ dpkg -l | grep -i openssl ]
+	  then
+	    return true
+	fi
+
+	return false
 }
 
 # $1 parameter will be the type of project want to create laravel, lumen, cake or slim
