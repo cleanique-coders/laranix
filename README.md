@@ -5,7 +5,7 @@ Bash Script to allow create Laravel 5, Lumen, Slim Framework 3, CakePHP 3 and Wo
 
 ## Dependencies ##
 
-1. [RoveWire VirtualHost](https://github.com/RoverWire/virtualhost)
+1. [Forked RoveWire VirtualHost](https://github.com/cleanique-coders/virtualhost)
 
 ## Installation ##
 
